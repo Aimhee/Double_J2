@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header, { LoginButton, LogoutButton, SearchBar, SearchButton } from 'components/Base/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';

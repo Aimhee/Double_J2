@@ -111,7 +111,6 @@ exports.logout = async (ctx) => {
 
 exports.check = (ctx) => {
   const { user } = ctx.request;
-  console.log(ctx.request.user)
 
   if(!user) {
      ctx.status = 403;

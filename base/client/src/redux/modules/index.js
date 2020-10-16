@@ -3,10 +3,11 @@ import base from './base';
 import auth, { authSaga } from './auth';
 import user, { userSaga } from './user';
 import kakao, { kakaoSaga } from './kakao';
-import { all, fork } from 'redux-saga/effects';
+import book, { bookSaga } from './book';
+import { all } from 'redux-saga/effects';
 
 export function* rootSaga() {
-  yield all([authSaga(), userSaga(), kakaoSaga()]);
+  yield all([authSaga(), userSaga(), kakaoSaga(), bookSaga()]);
   // yield all([fork(authSaga), fork(userSaga)]);
 }
 
@@ -14,5 +15,6 @@ export default combineReducers({
   base,
   auth,
   user,
-  kakao
+  kakao,
+  book
 });

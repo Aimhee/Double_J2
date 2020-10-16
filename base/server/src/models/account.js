@@ -19,10 +19,7 @@ const Account = new Schema({
     type: String
   },
   password: String,
-  thoughtCount: {
-    type: Number,
-    default: 0
-  },
+  bookcase: {},
   createdAt: {
     type: Date,
     default: Date.now

@@ -1,20 +1,38 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { InfoWrapper, KakaoContents, BookWrapper } from 'components/Result/Kakao';
+import { InfoWrapper, KakaoContents, BookWrapper, PageButton, ButtonWrapper } from 'components/Result/Kakao';
 import { bindActionCreators } from 'redux';
 import * as kakaoActions from 'redux/modules/kakao';
 
 function KakaoResult() {
-  const { text, endPage, pageableCount, totalCount, data } = useSelector(state => ({
+  const { text, endPage, pageableCount, page, data } = useSelector(state => ({
     text: state.kakao.text,
     endPage: state.kakao.endPage,
     pageableCount: state.kakao.pageableCount,
-    totalCount: state.kakao.totalCount,
+    page: state.kakao.page,
     data: state.kakao.data
   }));
   const sizes = [10, 20, 40];
   const dispatch = useDispatch();
   const KakaoActions = bindActionCreators(kakaoActions, dispatch);
+
+  const movePages = async (e) => {
+    const { name } = e.target;
+    var value = Number(page);
+    name === 'next' ? value += 5 : value -= 5
+    try {
+      if(name === 'next'){
+        await KakaoActions.changeSize({ form: 'page', value })
+        await KakaoActions.searchKakaoBooks({text, page: value, size: 10});
+      } else {
+        await KakaoActions.changeSize({ form: 'page', value })
+        await KakaoActions.searchKakaoBooks({text, page: value, size: 10});
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  const pageNumber = [...Array(5)].map((a, b) => b + 1 + parseInt((page - 1)/5)*5).filter(c => endPage >= c)
 
   const onChangeSize = async (e) => {
     const value = e.target.value;
@@ -25,6 +43,16 @@ function KakaoResult() {
       } catch (e) {
         console.log(e)
       }
+    }
+  }
+
+  const onChangePage = async (e) => {
+    const {value} = e.target
+    try {
+      await KakaoActions.changeSize({ form: 'page', value })
+      await KakaoActions.searchKakaoBooks({text, page: value, size: 10});
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -40,16 +68,29 @@ function KakaoResult() {
       <KakaoContents >
         {
           data && data.map((book, idx) => (
-            <BookWrapper key={idx} book={book}>
-
-            </BookWrapper>
+            <BookWrapper key={idx} book={book} />
           ))
         }
       </KakaoContents>
-      <p>{pageableCount}</p>
+      <ButtonWrapper>
+        {
+          parseInt((page - 1)/5) !== 0 
+          && <PageButton name="prev" onClick={movePages} >이전</PageButton>
+        }
+        {
+          pageNumber && pageNumber.map((num, idx) => (
+        <PageButton key={idx} value={num} onClick={onChangePage} >
+          {num}
+        </PageButton>
+          ))
+        }
+        {
+          parseInt((page-1)/5) !== parseInt((endPage-1)/5)
+          && <PageButton name="next" onClick={movePages} >다음</PageButton>
+        }
+      </ButtonWrapper>
     </>
   )
-
 }
 
 export default KakaoResult;

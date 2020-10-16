@@ -22,6 +22,7 @@ const initialState = {
   text: '',
   page: 1,
   size: 10,
+  currentPages: 1,
   endPage: null,
   isEnd: null,
   pageableCount: null,

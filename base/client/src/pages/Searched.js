@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { KakaoResult } from 'containers/Result';
+import { KakaoResult, BookDetail } from 'containers/Result';
 import { BaseWrapper } from 'components/Base';
 
 function Searched() {
   return (
     <BaseWrapper>
-      <Route path="/search/kakao" component={KakaoResult} />
+      <Route exact path="/search/kakao" component={KakaoResult} />
+      <Route path="/search/kakao/detail" component={BookDetail} />
     </BaseWrapper>
   );
 }
