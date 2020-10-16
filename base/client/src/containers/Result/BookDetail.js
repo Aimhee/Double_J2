@@ -9,6 +9,7 @@ function BookDetail({ location }) {
     selectedBook: state.book.selectedBook
   }));
   const { title, isbn, thumbnail, authors, publisher, type } = selectedBook;
+  console.log('authors: ', authors)
   const dispatch = useDispatch();
   const BookActions = bindActionCreators(bookActions, dispatch);
 

@@ -41,6 +41,7 @@ const initialState = {
   selectedBook: {
     title: "",
     thumbnail: "",
+    authors: "",
     isbn: "",
     type: []
   },
@@ -72,6 +73,7 @@ export default handleActions({
     console.log('book', book)
     return produce(state, draft => {
       draft.selectedBook = book;
+      draft.selectedBook.authors = book.authors.join(', ')
       draft.selectedBook.type = [];
     })
   }
